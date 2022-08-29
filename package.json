@@ -1,0 +1,25 @@
+{
+
+    "name": "harambot",
+  
+    "description": "a very haram discord bot",
+  
+    "version": "0.0.1",
+  
+    "main": "bot.js",
+  
+    "scripts": {
+  
+      "start": "node bot.js"
+  
+    },
+  
+    "dependencies": {
+  
+      "discord.js": "14.3.0",
+  
+      "request": "2.81.0"
+  
+    }
+  
+  }
