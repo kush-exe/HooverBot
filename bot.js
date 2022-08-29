@@ -11,8 +11,8 @@ const client = new Client({
 //register commands
 const commands = [
   {
-    name: 'ping',
-    description: 'Replies with Pong!',
+    name: 'test',
+    description: 'Test',
   },
 ];
 
