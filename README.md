@@ -1,0 +1,2 @@
+# HaramBot
+A Discord Bot
