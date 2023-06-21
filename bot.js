@@ -2,18 +2,39 @@ const Discord = require('discord.js');
 const { REST, Routes } = require('discord.js');
 
 const { Client, GatewayIntentBits } = require('discord.js');
+const { Events, ModalBuilder } = require('discord.js');
+
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMessages,
   ]
 });
+
 //register commands
 const commands = [
   {
     name: 'test',
     description: 'Test',
   },
+  {
+    name: 'resetorder',
+    description: 'Resets the current order',
+  },
+
+  {
+    name: 'order',
+    description: 'Add to order',
+  },
+  {
+    name: 'pay',
+    description: 'Mark order as paid',
+  },
+  {
+    name: 'vieworder',
+    description: 'View yuor current order'
+  },
+
 ];
 
 const rest = new REST({ version: '10' }).setToken(process.env.BOT_TOKEN);
@@ -41,9 +62,33 @@ client.on('interactionCreate', async interaction => {
 
   if (interaction.commandName === 'test') {
     await interaction.reply('Help stepbro I\'m stuck');
+  } else if (interaction.commandName === 'order') {
+    await order(interaction);
+  } else if (interaction.commandName === 'resetorder') {
+    
+  } else if (interaction.commandName === 'pay') {
+    
   }
 });
 
+//functions
+
+/**
+ * Prompts a modal form with order stuff and adds to order
+ * @param {*} interaction 
+ */
+async function order(interaction) {
+  await interaction.reply('this works');
+}
+
+async function resetorder(interaction) {
+
+}
+
+async function pay(interaction) {
+
+}
+ 
 
 
 //Leave at end
