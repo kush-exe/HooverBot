@@ -105,6 +105,7 @@ async function order(interaction) {
       select.addOptions(
         new StringSelectMenuOptionBuilder()
           .setLabel(gun)
+          .setDescription(gun)
           .setValue(gun)
       );
     }
