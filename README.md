@@ -1,2 +1,2 @@
-# HaramBot
+# HooverBot
 A Discord Bot
