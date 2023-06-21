@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const { REST, Routes } = require('discord.js');
 const fs = require('fs')
 const { Client, GatewayIntentBits } = require('discord.js');
-const { Events, ModalBuilder } = require('discord.js');
+const { Events, ModalBuilder, StringSelectMenuBuilder, ActionRowBuilder } = require('discord.js');
 const { ButtonBuilder, ButtonStyle, SlashCommandBuilder } = require('discord.js');
 
 
