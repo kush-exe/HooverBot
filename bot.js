@@ -114,7 +114,8 @@ async function order(interaction) {
 
   modal.addComponents(firstActionRow);
 
-  await interaction.reply('Added to your order');
+  await interaction.showModal(modal)
+  //await interaction.reply('Added to your order');
 }
  
 
