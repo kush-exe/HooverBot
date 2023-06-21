@@ -90,9 +90,6 @@ async function order(interaction) {
     }
   }*/
 
-  const modal = new ModalBuilder()
-    .setCustomId('gunorder')
-    .setTitle('Gun Order');
 
   //add components
   const select = new StringSelectMenuBuilder()
@@ -111,12 +108,13 @@ async function order(interaction) {
     }
   }
 
-  const firstActionRow = new ActionRowBuilder().addComponents(select);
+  const row = new ActionRowBuilder().addComponents(select);
 
-  modal.addComponents(firstActionRow);
 
-  await interaction.showModal(modal)
-  //await interaction.reply('Added to your order');
+  await interaction.reply({
+    content: "Make a selection",
+    components: [row],
+  });
 }
  
 
