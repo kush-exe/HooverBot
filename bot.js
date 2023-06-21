@@ -1,8 +1,10 @@
 const Discord = require('discord.js');
 const { REST, Routes } = require('discord.js');
-
+const fs = require('fs')
 const { Client, GatewayIntentBits } = require('discord.js');
 const { Events, ModalBuilder } = require('discord.js');
+const { ButtonBuilder, ButtonStyle, SlashCommandBuilder } = require('discord.js');
+
 
 const client = new Client({
   intents: [
@@ -78,15 +80,41 @@ client.on('interactionCreate', async interaction => {
  * @param {*} interaction 
  */
 async function order(interaction) {
-  await interaction.reply('this works');
-}
 
-async function resetorder(interaction) {
+  //read json to get stock
+  let stock = JSON.parse(fs.readFileSync('stock.json'));
 
-}
+  /*for (gun in stockdata) {
+    if (stockdata[gun].available > 0) {
+      stock[gun] = stockdata[gun].available
+    }
+  }*/
 
-async function pay(interaction) {
+  const modal = new ModalBuilder()
+    .setCustomId('gunorder')
+    .setTitle('Gun Order');
 
+  //add components
+  const select = new StringSelectMenuBuilder()
+    .setCustomId('selection')
+    .setPlaceholder('Please select your item');
+  
+  //select.addOptions()
+  for (var gun in stock) {
+    if (stock[gun].available > 0) {
+      select.addOptions(
+        new StringSelectMenuOptionBuilder()
+          .setLabel(gun)
+          .setValue(gun)
+      );
+    }
+  }
+
+  const firstActionRow = new ActionRowBuilder().addComponents(select);
+
+  modal.addComponents(firstActionRow);
+
+  await interaction.reply('Added to your order');
 }
  
 

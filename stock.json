@@ -1,71 +1,88 @@
 {
     "SP45": {
         "price": 11000,
-        "stock": 9
+        "stock": 9,
+        "available": 9
     },
     "Combat Pistol": {
         "price": 7000,
-        "stock": 8
+        "stock": 8,
+        "available": 8
     },
     "Ceramic Pistol": {
         "price": 5500,
-        "stock": 8
+        "stock": 8,
+        "available": 8
     },
     "Vintage Pistol": {
         "price": 6500,
-        "stock": 6
+        "stock": 6,
+        "available": 6
     },
     "Uzi": {
         "price": 11000,
-        "stock": 3
+        "stock": 3,
+        "available": 3
     },
     "Tec 9": {
         "price": 12000,
-        "stock": 3
+        "stock": 3,
+        "available": 3
     },
     "Sawn Off Shotgun": {
         "price": 8000,
-        "stock": 4
+        "stock": 4,
+        "available": 4
     },
     "Glock 18c": {
         "price": 10000,
-        "stock": 3
+        "stock": 3,
+        "available": 3
     },
     "MPX": {
         "price": 15500,
-        "stock": 3
+        "stock": 3,
+        "available": 3
     },
     "Rifle Ammo": {
         "price": 250,
-        "stock": 50
+        "stock": 50,
+        "available": 50
     },
     "Shotgun Ammo": {
         "price": 125,
-        "stock": 50
+        "stock": 50,
+        "available": 50
     },
     "SMG Ammo": {
         "price": 75,
-        "stock": 50
+        "stock": 50,
+        "available": 50
     },
     "Pistol Ammo": {
         "price": 125,
-        "stock": 50
+        "stock": 50,
+        "available": 50
     },
     "Pistol X3 (Special)": {
         "price": 10000,
-        "stock": 8
+        "stock": 8,
+        "available": 8
     },
     "War Crate (Special)": {
         "price": 150000,
-        "stock": 1
+        "stock": 1,
+        "available": 1
     },
     "War Crate 2 (Special)": {
         "price": 300000,
-        "stock": 1
+        "stock": 1,
+        "available": 1
     },
     "War Crate 3 (Special)": {
         "price": 750000,
-        "stock": 1
+        "stock": 1,
+        "available": 1
     }
 
 }
