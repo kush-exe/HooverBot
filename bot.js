@@ -3,7 +3,7 @@ const { REST, Routes } = require('discord.js');
 const fs = require('fs')
 const { Client, GatewayIntentBits } = require('discord.js');
 const { Events, ModalBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, ActionRowBuilder } = require('discord.js');
-const { ButtonBuilder, ButtonStyle, SlashCommandBuilder } = require('discord.js');
+const { ButtonBuilder, ButtonStyle, SlashCommandBuilder, TextInputBuilder, TextInputStyle } = require('discord.js');
 
 
 const client = new Client({
@@ -101,13 +101,26 @@ async function order(interaction) {
     }
   }
 
-  const row = new ActionRowBuilder().addComponents(select);
+  const quant = new TextInputBuilder()
+    .setCustomId('quantityInput')
+    .setLabel("Quantity")
+    .setStyle(TextInputStyle.short);
 
+  const gunrow = new ActionRowBuilder().addComponents(select);
+  const quantity = new ActionRowBuilder().addComponents(quant);
 
   await interaction.reply({
     content: "Make a selection",
-    components: [row],
+    components: [gunrow, quantity],
   });
+
+  const collectorFilter = i => i.user.id === interaction.user.id;
+
+  try {
+    const confirmation = await response.awaitMessageComponent({ filter: collectorFilter, time: 60000 });
+  } catch (e) {
+    await interaction.editReply({ content: 'Confirmation not received within 1 minute, cancelling', components: [] });
+  }
 }
  
 
