@@ -268,7 +268,7 @@ async function refresh(interaction) {
   //save id
   if (data.embed) {
     client.channels.fetch(data.channel).then(channel => {
-      channel.messages.delete(data.embed);
+      channel.messages.delete(data.embed).catch(error => console.log(error));
     }); 
   }
 
