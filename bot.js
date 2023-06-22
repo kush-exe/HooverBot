@@ -226,13 +226,13 @@ async function refresh(interaction) {
   let orders = JSON.parse(fs.readFileSync('orders.json'));
   let stock = JSON.parse(fs.readFileSync('stock.json'));
   let data = JSON.parse(fs.readFileSync('data.json'));
+  let grandtotal = 0
 
   const order = new EmbedBuilder()
     .setColor(0xEB6E1F)
     .setTitle('Gun Order')
     .setURL('https://echorp.fandom.com/wiki/Category:Gangs')
     .setAuthor({ name: "Big Hoover ", iconUrl: "https://i.imgur.com/cLzGRhf.png"})
-    .setDescription("🔫😈💣")
     .setThumbnail('https://i.imgur.com/cLzGRhf.png')
     .setTimestamp();
   
@@ -243,17 +243,19 @@ async function refresh(interaction) {
     for (o in orders[member]) {
       if (o !== "paid" && o !== "nickname") {
         let sub = stock[o].price;
-        x = x + orders[member][o] + "x " + o + "$" + (sub*orders[member][o]) + "\n";
+        x = x + orders[member][o] + "x " + o + " $" + (sub*orders[member][o]) + "\n";
         total += sub;
       }
     }
 
 
-    x = x + "Total: " + total;
+    x = x + "**TOTAL: " + total + "**";
     order.addFields({ name: orders[member].nickname, value: x, inline: true });
-    
+    grandtotal += total;
   }
 
+  order.setDescription('🔫**Grand Total: $' + grandtotal + '**');
+  console.log(interaction);
   //save id
   if (data.embed === undefined) {
     const res = await interaction.channel.send({ embeds: [order] });
