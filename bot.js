@@ -116,7 +116,7 @@ async function selectItem(interaction) {
     const confirmation = await response.awaitMessageComponent({ filter: collectorFilter, time: 60000 });
     if (confirmation.customId === 'gunselection') {
       //show quantity
-      await selectQuantity(interaction, confirmation.values[0], stock[confirmation.values[0]].available);
+      //await selectQuantity(interaction, confirmation.values[0], stock[confirmation.values[0]].available);
     } 
   } catch (e) {
     console.log(e);
@@ -161,7 +161,7 @@ async function selectQuantity(interaction, item, stock) {
   //modal.addComponents(quantrow);
 
   //await interaction.showModal(modal);
-  await interaction.followUp(quantrow);
+  await interaction.editReply(quantrow);
 }
  
 
