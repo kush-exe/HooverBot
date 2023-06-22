@@ -78,7 +78,7 @@ client.on(Events.InteractionCreate, async interaction => {
 	if (!interaction.isModalSubmit()) return;
 	if (interaction.customId === 'ordermodal') {
 		await interaction.reply({ content: 'Your submission was received successfully!' });
-
+    addOrder(interaction);
 	}
 });
 
