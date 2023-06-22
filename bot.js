@@ -76,6 +76,8 @@ client.on('interactionCreate', async interaction => {
     
   } else if (interaction.commandName === 'pay') {
     
+  } else if (interaction.commandName === 'refresh') {
+    refresh();
   }
 });
 
