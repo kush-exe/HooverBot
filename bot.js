@@ -75,12 +75,13 @@ client.on('interactionCreate', async interaction => {
   } else if (interaction.commandName === 'resetorder') {
     resetOrder(interaction);
   } else if (interaction.commandName === 'pay') {
-    
+    pay(interaction);
   } else if (interaction.commandName === 'refresh') {
     await interaction.reply({ content: 'Refreshing Order!'});
     setTimeout(() => interaction.deleteReply(), 5000);
     refresh(interaction);
   } else if (interaction.commandName === 'removeorder') {
+    remove(interaction);
   }
 });
 
@@ -249,7 +250,12 @@ async function refresh(interaction) {
     }
 
 
-    x = x + "**TOTAL: $" + total + "**";
+    x = x + "**TOTAL: $" + total + "**\n";
+    if (orders[member].paid) {
+      x = x + 'Paid: YES';
+    } else {
+      x = x + 'Paid: NO';
+    }
     order.addFields({ name: orders[member].nickname, value: x, inline: true });
     grandtotal += total;
   }
@@ -285,11 +291,25 @@ async function resetOrder(interaction) {
   const filter = (interaction) => interaction.customId === 'resetmodal';
   interaction.awaitModalSubmit({ filter, time: 15_000 })
     .then(interaction => {
-      await interaction.reply({ content: '💣Order Cleared💣'});
+      interaction.reply({ content: '💣Order Cleared💣'});
       fs.writeFileSync('orders.json', JSON.stringify({}));
     })
     .catch(console.error);
   
+}
+
+async function remove(interaction) {
+  let orders = JSON.parse(fs.readFileSync('orders.json'));
+  delete orders[interaction.user.id];
+  fs.writeFileSync('orders.json', JSON.stringify(orders));
+  await interaction.reply({ content: "Your order has been removed, " + interaction.member.nickname});
+}
+
+async function pay(interaction) {
+  let orders = JSON.parse(fs.readFileSync('orders.json'));
+  orders[interaction.user.id].paid = true;
+  fs.writeFileSync('orders.json', JSON.stringify(orders));
+  await interaction.reply({ content: "Your order has been removed, " + interaction.member.nickname});
 }
  
 
