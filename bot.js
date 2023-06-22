@@ -126,7 +126,7 @@ async function selectItem(interaction) {
 }
 
 /**
- * Prompts a form to fill out for quantity
+ * Prompts a modal to fill out for quantity
  * @param {*} interaction 
  * @param {String} item 
  * @param {Number} stock
@@ -134,27 +134,13 @@ async function selectItem(interaction) {
  */
 async function selectQuantity(interaction, item, stock) {
 
-  /*const quantity = new StringSelectMenuBuilder()
-    .setCustomId('quantityselection')
-    .setPlaceholder('Quantity');
-
-
-  for (let i = 1; i <= stock; i++) {
-    quantity.addOptions(
-      new StringSelectMenuOptionBuilder()
-        .setLabel(i.toString())
-        .setDescription(i.toString())
-        .setValue(i.toString())
-    );
-  }*/
-
   const modal = new ModalBuilder()
     .setCustomId('ordermodal')
     .setTitle('Gun Order');
 
   const quantity = new TextInputBuilder()
     .setCustomId('quantityinput')
-    .setLabel('enter quantity')
+    .setLabel('Enter Quantity: (' + stock.toString() + 'x in stock)')
     .setStyle(TextInputStyle.Short);
 
   const quantrow = new ActionRowBuilder().addComponents(quantity);
@@ -162,7 +148,20 @@ async function selectQuantity(interaction, item, stock) {
   modal.addComponents(quantrow);
 
   await interaction.showModal(modal);
-  //await interaction.reply(quantrow);
+
+  const collectorFilter = i => i.user.id === interaction.user.id;
+
+  try {
+    const confirmation = await response.awaitMessageComponent({ filter: collectorFilter, time: 60000 });
+    if (confirmation.customId === 'ordermodal' && confirmation.isModalSubmit()) {
+      //update order form
+      await interaction.editReply({ content: 'submission received!', components: [] });
+    } 
+  } catch (e) {
+    console.log(e);
+    await interaction.editReply({ content: 'Confirmation not received within 1 minute, cancelling', components: [] });
+    return;
+  }
 }
  
 
