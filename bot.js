@@ -133,8 +133,8 @@ async function selectItem(interaction) {
  * @returns 
  */
 async function selectQuantity(interaction, item, stock) {
-  await interaction.deferReply()
-  const quantity = new StringSelectMenuBuilder()
+
+  /*const quantity = new StringSelectMenuBuilder()
     .setCustomId('quantityselection')
     .setPlaceholder('Quantity');
 
@@ -146,14 +146,19 @@ async function selectQuantity(interaction, item, stock) {
         .setDescription(i.toString())
         .setValue(i.toString())
     );
-  }
+  }*/
+
+  const quantity = new TextInputBuilder()
+    .setCustomId('quantityinput')
+    .setLabel('enter quantity')
+    .setStyle(TextInputStyle.Short);
 
   const quantrow = new ActionRowBuilder().addComponents(quantity);
 
   //modal.addComponents(quantrow);
 
   //await interaction.showModal(modal);
-  await interaction.editReply(quantrow);
+  await interaction.reply(quantrow);
 }
  
 
