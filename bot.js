@@ -133,8 +133,7 @@ async function selectItem(interaction) {
  * @returns 
  */
 async function selectQuantity(interaction, item, stock) {
-  console.log('here', item, stock);
-  
+  await interaction.deferReply()
   const quantity = new StringSelectMenuBuilder()
     .setCustomId('quantityselection')
     .setPlaceholder('Quantity');
@@ -154,7 +153,7 @@ async function selectQuantity(interaction, item, stock) {
   //modal.addComponents(quantrow);
 
   //await interaction.showModal(modal);
-  await interaction.reply(quantrow);
+  await interaction.editReply(quantrow);
 }
  
 
