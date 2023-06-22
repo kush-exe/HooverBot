@@ -32,10 +32,6 @@ const commands = [
     name: 'pay',
     description: 'Mark order as paid',
   },
-  {
-    name: 'vieworder',
-    description: 'View yuor current order'
-  },
 
 ];
 
@@ -112,7 +108,7 @@ async function selectItem(interaction) {
     components: [gunrow],
   });
 
-  setTimeout(() => interaction.deleteReply(), 10000);
+  setTimeout(() => interaction.deleteReply(), 120000);
 
   const collectorFilter = i => i.user.id === interaction.user.id;
 
@@ -157,24 +153,49 @@ async function selectQuantity(interaction, item, stock) {
   // Collect a modal submit interaction
   const filter = (interaction) => interaction.customId === 'ordermodal';
   interaction.awaitModalSubmit({ filter, time: 15_000 })
-    .then(interaction => addOrder(interaction, item))
+    .then(interaction => {
+      const quantity = Number(interaction.fields.getTextInputValue('quantityinput'));
+      if (quantity > stock) {
+        await interaction.reply({ content: 'Not enough in stock'});
+      } else {
+        addOrder(interaction, item, quantity)
+      }
+    })
     .catch(console.error);
 }
 
 /**
- * Adds item to order after modal submit
+ * Adds item to order
  * @param {*} interaction 
+ * @param {*} item 
+ * @param {*} quantity 
  */
-async function addOrder(interaction) {
-  console.log(interaction);
-  await interaction.reply({ content: 'Added!' });
+async function addOrder(interaction, item, quantity) {
+
   let orders = JSON.parse(fs.readFileSync('orders.json'));
+  let stock = JSON.parse(fs.readFileSync('stock.json'));
 
-  if (orders[interaction.user.id]) {
-    //orders[interaction.user.id].push()
-  } else {
-
+  //create order per discord id if not exists
+  if (orders[interaction.user.id] === undefined) {
+    orders[interaction.user.id] = {};
   }
+
+  //add to quantity if item is already in order
+  if (orders[interaction.user.id][item]) {
+    orders[interaction.user.id][item] += quantity;
+  } else { //otherwise create the field
+    orders[interaction.user.id][item] = quantity;
+  }
+
+  //reduce quantity
+  stock[item].available -= quantity;
+
+  //write both json files
+  fs.writeFileSync('orders.json', JSON.stringify(orders));
+  fs.writeFileSync('stock.json', JSON.stringify(stock));
+
+  await interaction.reply({ content: 'Added ' + quantity.toString() + 'x ' + item + ' to your order ' + interaction.member.nickname});
+  setTimeout(() => interaction.deleteReply(), 120000);
 }
  
 
