@@ -106,7 +106,7 @@ async function order(interaction) {
     .setLabel("Quantity")
     .setStyle(TextInputStyle.Short);
 
-  const gunrow = new ActionRowBuilder().addComponents(select, quantity);
+  const gunrow = new ActionRowBuilder().addComponents(select);
 
   await interaction.reply({
     content: "Make a selection",
