@@ -113,12 +113,12 @@ async function selectItem(interaction) {
 
   try {
     const confirmation = await response.awaitMessageComponent({ filter: collectorFilter, time: 60000 });
-    console.log(confirmation);
     if (confirmation.customId === 'gunselection') {
       //show quantity
       await selectQuantity(interaction, confirmation.values[0], stock[confirmation.values[0]].available);
     } 
   } catch (e) {
+    console.log(e);
     await interaction.editReply({ content: 'Confirmation not received within 1 minute, cancelling', components: [] });
     return;
   }
