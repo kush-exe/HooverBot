@@ -223,7 +223,7 @@ async function refresh(interaction) {
   const order = new EmbedBuilder()
     .setColor(0xEB6E1F)
     .setTitle('Gun Order')
-    .setUrl('https://echorp.fandom.com/wiki/Category:Gangs')
+    .setURL('https://echorp.fandom.com/wiki/Category:Gangs')
     .setAuthor({ name: "Big Hoover ", iconUrl: "https://i.imgur.com/cLzGRhf.png"})
     .setDescription("🔫😈💣")
     .setThumbnail('https://i.imgur.com/cLzGRhf.png')
