@@ -73,14 +73,7 @@ client.on('interactionCreate', async interaction => {
   }
 });
 
-//modal handler
-client.on(Events.InteractionCreate, async interaction => {
-	if (!interaction.isModalSubmit()) return;
-	if (interaction.customId === 'ordermodal') {
-		await interaction.reply({ content: 'Your submission was received successfully!' });
-    addOrder(interaction);
-	}
-});
+
 
 //functions
 
@@ -158,6 +151,11 @@ async function selectQuantity(interaction, item, stock) {
 
   await interaction.showModal(modal);
   
+  // Collect a modal submit interaction
+  const filter = (interaction) => interaction.customId === 'ordermodal';
+  interaction.awaitModalSubmit({ filter, time: 15_000 })
+    .then(interaction => console.log(`${interaction.customId} was submitted!`))
+    .catch(console.error);
 }
 
 /**
