@@ -297,6 +297,10 @@ async function resetOrder(interaction) {
       interaction.reply({ content: '💣Order Cleared💣'});
       setTimeout(() => interaction.deleteReply(), 30000);
       fs.writeFileSync('orders.json', JSON.stringify({}));
+      let stock = JSON.parse(fs.readFileSync('stock.json'));
+      for (gun in stock) {
+        stock[gun].available = stock[gun].stock;
+      }
     })
     .catch(console.error);
   
@@ -308,8 +312,15 @@ async function resetOrder(interaction) {
  */
 async function remove(interaction) {
   let orders = JSON.parse(fs.readFileSync('orders.json'));
+  let stock = JSON.parse(fs.readFileSync('stock.json'));
+
+  for (gun in orders[interaction.user.id]) {
+    stock[gun].available += orders[interaction.user.id][gun];
+  }
+
   delete orders[interaction.user.id];
   fs.writeFileSync('orders.json', JSON.stringify(orders));
+  fs.writeFileSync('stock.json', JSON.stringify(stock));
   await interaction.reply({ content: "Your order has been **removed**, " + interaction.member.nickname});
   setTimeout(() => interaction.deleteReply(), 30000);
   refresh(interaction);
