@@ -133,18 +133,12 @@ async function selectItem(interaction) {
  * @returns 
  */
 async function selectQuantity(interaction, item, stock) {
-  
+  console.log('here', item, stock);
   
   const quantity = new StringSelectMenuBuilder()
     .setCustomId('quantityselection')
     .setPlaceholder('Quantity');
-  
-  
-  const modal = new ModalBuilder()
-    .setCustomId('ordermodal')
-    .setTitle('Gun Order');
 
-  //add to modal
 
   for (let i = 1; i <= stock; i++) {
     quantity.addOptions(
