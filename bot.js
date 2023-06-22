@@ -148,6 +148,10 @@ async function selectQuantity(interaction, item, stock) {
     );
   }*/
 
+  const modal = new ModalBuilder()
+    .setCustomId('ordermodal')
+    .setTitle('Gun Order');
+
   const quantity = new TextInputBuilder()
     .setCustomId('quantityinput')
     .setLabel('enter quantity')
@@ -155,10 +159,10 @@ async function selectQuantity(interaction, item, stock) {
 
   const quantrow = new ActionRowBuilder().addComponents(quantity);
 
-  //modal.addComponents(quantrow);
+  modal.addComponents(quantrow);
 
-  //await interaction.showModal(modal);
-  await interaction.reply(quantrow);
+  await interaction.showModal(modal);
+  //await interaction.reply(quantrow);
 }
  
 
