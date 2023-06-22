@@ -4,6 +4,7 @@ const fs = require('fs')
 const { Client, GatewayIntentBits } = require('discord.js');
 const { Events, ModalBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, ActionRowBuilder } = require('discord.js');
 const { ButtonBuilder, ButtonStyle, SlashCommandBuilder, TextInputBuilder, TextInputStyle } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 
 
 const client = new Client({
@@ -21,7 +22,12 @@ const commands = [
   },
   {
     name: 'resetorder',
-    description: 'Resets the current order',
+    description: '💣Resets the ENTIRE order💣',
+  },
+
+  {
+    name: 'removeorder',
+    description: 'Removes your personal order',
   },
 
   {
@@ -32,6 +38,10 @@ const commands = [
     name: 'pay',
     description: 'Mark order as paid',
   },
+  {
+    name: 'refresh',
+    description: 'Refreshes the order viewer'
+  }
 
 ];
 
@@ -177,7 +187,10 @@ async function addOrder(interaction, item, quantity) {
 
   //create order per discord id if not exists
   if (orders[interaction.user.id] === undefined) {
-    orders[interaction.user.id] = {};
+    orders[interaction.user.id] = {
+      paid: false,
+      nickname: interaction.member.nickname
+    };
   }
 
   //add to quantity if item is already in order
@@ -196,6 +209,39 @@ async function addOrder(interaction, item, quantity) {
 
   await interaction.reply({ content: 'Added ' + quantity.toString() + 'x ' + item + ' to your order ' + interaction.member.nickname});
   setTimeout(() => interaction.deleteReply(), 120000);
+}
+
+async function refresh(interaction) {
+  interaction.deferReply();
+  await interaction.reply({ content: 'Refreshing Order!'});
+  setTimeout(() => interaction.deleteReply(), 5000);
+  let orders = JSON.parse(fs.readFileSync('orders.json'));
+
+  const order = new EmbedBuilder()
+    .setColor(0xEB6E1F)
+    .setTitle('Gun Order')
+    .setUrl('https://echorp.fandom.com/wiki/Category:Gangs')
+    .setAuthor({ name: "Big Hoover ", iconUrl: "https://i.imgur.com/cLzGRhf.png"})
+    .setDescription("🔫😈💣")
+    .setThumbnail('https://i.imgur.com/cLzGRhf.png')
+    .setTimeStamp();
+  
+  for (member in orders) {
+    let x = "";
+
+    for (o in orders[member]) {
+      if (o !== "paid" && o !== "nickname") {
+        x = x + orders[member][o] + "x " + o;
+      }
+    }
+
+    if (o.length > 0)
+      order.addFields({ name: orders[member].nickname, value: x, inline: true });
+  }
+
+
+  await interaction.channel.send({ embeds: [order] });
+
 }
  
 
