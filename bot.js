@@ -127,13 +127,18 @@ async function selectItem(interaction) {
 }
 
 /**
- * Prompts a modal form to fill out for order
+ * Prompts a form to fill out for quantity
  * @param {*} interaction 
  * @param {String} item 
  * @param {Number} stock
  * @returns 
  */
 async function selectQuantity(interaction, item, stock) {
+  
+  
+  
+  
+  
   const modal = new ModalBuilder()
     .setCustomId('ordermodal')
     .setTitle('Gun Order');
@@ -147,9 +152,10 @@ async function selectQuantity(interaction, item, stock) {
 
   const quantrow = new ActionRowBuilder().addComponents(quantity);
 
-  modal.addComponents(quantrow);
+  //modal.addComponents(quantrow);
 
-  await interaction.showModal(modal);
+  //await interaction.showModal(modal);
+  await interaction.followUp(quantrow);
 }
  
 
