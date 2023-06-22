@@ -78,6 +78,7 @@ client.on(Events.InteractionCreate, async interaction => {
 	if (!interaction.isModalSubmit()) return;
 	if (interaction.customId === 'ordermodal') {
 		await interaction.reply({ content: 'Your submission was received successfully!' });
+
 	}
 });
 
@@ -164,7 +165,14 @@ async function selectQuantity(interaction, item, stock) {
  * @param {*} interaction 
  */
 function addOrder(interaction) {
+  console.log(interaction);
+  let orders = JSON.parse(fs.readFileSync('orders.json'));
 
+  if (orders[interaction.user.id]) {
+    //orders[interaction.user.id].push()
+  } else {
+
+  }
 }
  
 
