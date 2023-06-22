@@ -133,9 +133,9 @@ async function selectQuantity(interaction, item, stock) {
   for (let i = 1; i <= stock; i++) {
     quantity.addOptions(
       new StringSelectMenuOptionBuilder()
-        .setLabel(stock)
+        .setLabel(stock.toString())
         .setDescription('  ')
-        .setValue(stock)
+        .setValue(stock.toString())
     );
   }
 
