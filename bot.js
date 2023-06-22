@@ -75,6 +75,7 @@ client.on('interactionCreate', async interaction => {
 
 
 
+
 //functions
 
 /**
@@ -154,7 +155,7 @@ async function selectQuantity(interaction, item, stock) {
   // Collect a modal submit interaction
   const filter = (interaction) => interaction.customId === 'ordermodal';
   interaction.awaitModalSubmit({ filter, time: 15_000 })
-    .then(interaction => console.log(`${interaction.customId} was submitted!`))
+    .then(interaction => addOrder(interaction, item))
     .catch(console.error);
 }
 
@@ -164,6 +165,7 @@ async function selectQuantity(interaction, item, stock) {
  */
 function addOrder(interaction) {
   console.log(interaction);
+  await interaction.reply({ content: 'Added!' });
   let orders = JSON.parse(fs.readFileSync('orders.json'));
 
   if (orders[interaction.user.id]) {
