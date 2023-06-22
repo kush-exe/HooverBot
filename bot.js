@@ -163,7 +163,7 @@ async function selectQuantity(interaction, item, stock) {
  * Adds item to order after modal submit
  * @param {*} interaction 
  */
-function addOrder(interaction) {
+async function addOrder(interaction) {
   console.log(interaction);
   await interaction.reply({ content: 'Added!' });
   let orders = JSON.parse(fs.readFileSync('orders.json'));
