@@ -118,7 +118,8 @@ async function selectItem(interaction) {
 
   try {
     const confirmation = await response.awaitMessageComponent({ filter: collectorFilter, time: 60000 });
-    await interaction.editReply({ content: confirmation, components: [] });
+    await interaction.editReply({ content: 'confirmation', components: [] });
+    console.log(confirmation);
     if (confirmation.customId === 'gunselection') {
       //show quantity
       await interaction.editReply({ content: confirmation, components: [] });
