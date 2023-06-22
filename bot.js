@@ -141,7 +141,7 @@ async function selectQuantity(interaction, item, stock) {
 
   const quantrow = new ActionRowBuilder().addComponents(quantity);
 
-  const response = await interaction.reply({
+  const response = await interaction.editReply({
     content: "Select Quantity",
     components: [quantrow],
   });
