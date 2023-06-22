@@ -77,8 +77,8 @@ client.on('interactionCreate', async interaction => {
   } else if (interaction.commandName === 'pay') {
     
   } else if (interaction.commandName === 'refresh') {
-    //await interaction.reply({ content: 'Refreshing Order!'});
-    //setTimeout(() => interaction.deleteReply(), 5000);
+    await interaction.reply({ content: 'Refreshing Order!'});
+    setTimeout(() => interaction.deleteReply(), 5000);
     refresh(interaction);
   } else if (interaction.commandName === 'removeorder') {
     remove(interaction);
