@@ -136,7 +136,9 @@ async function selectItem(interaction) {
 async function selectQuantity(interaction, item, stock) {
   
   
-  
+  const quantity = new StringSelectMenuBuilder()
+    .setCustomId('quantityselection')
+    .setPlaceholder('Quantity');
   
   
   const modal = new ModalBuilder()
@@ -145,10 +147,14 @@ async function selectQuantity(interaction, item, stock) {
 
   //add to modal
 
-  const quantity = new TextInputBuilder()
-    .setCustomId('quantityinput')
-    .setLabel('Enter Quantity of ' + item)
-    .setStyle(TextInputStyle.Short);
+  for (let i = 1; i <= stock; i++) {
+    quantity.addOptions(
+      new StringSelectMenuOptionBuilder()
+        .setLabel(i.toString())
+        .setDescription(i.toString())
+        .setValue(i.toString())
+    );
+  }
 
   const quantrow = new ActionRowBuilder().addComponents(quantity);
 
