@@ -80,7 +80,6 @@ client.on('interactionCreate', async interaction => {
  * @param {*} interaction 
  */
 async function selectItem(interaction) {
-  await interaction.deferReply();
 
   //read json to get stock
   let stock = JSON.parse(fs.readFileSync('stock.json'));
@@ -105,7 +104,7 @@ async function selectItem(interaction) {
 
   const gunrow = new ActionRowBuilder().addComponents(select);
 
-  const response = await interaction.followUp({
+  const response = await interaction.reply({
     content: "Make a selection",
     components: [gunrow],
   });
@@ -161,7 +160,7 @@ async function selectQuantity(interaction, item, stock) {
   //modal.addComponents(quantrow);
 
   //await interaction.showModal(modal);
-  await interaction.editReply(quantrow);
+  await interaction.followUp(quantrow);
 }
  
 
