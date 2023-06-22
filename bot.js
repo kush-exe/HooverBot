@@ -123,7 +123,8 @@ async function selectItem(interaction) {
       await interaction.editReply({ content: confirmation, components: [] });
     } 
   } catch (e) {
-    await interaction.editReply({ content: 'Confirmation not received within 1 minute, cancelling', components: [] });
+    //await interaction.editReply({ content: 'Confirmation not received within 1 minute, cancelling', components: [] });
+    await interaction.editReply({ content: confirmation, components: [] });
     return;
   }
   
