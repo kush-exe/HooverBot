@@ -108,7 +108,7 @@ async function order(interaction) {
 
   const gunrow = new ActionRowBuilder().addComponents(select);
 
-  await interaction.reply({
+  const response = await interaction.reply({
     content: "Make a selection",
     components: [gunrow],
   });
@@ -120,6 +120,7 @@ async function order(interaction) {
   } catch (e) {
     await interaction.editReply({ content: 'Confirmation not received within 1 minute, cancelling', components: [] });
   }
+  
 }
  
 
