@@ -65,7 +65,7 @@ client.on('interactionCreate', async interaction => {
   if (interaction.commandName === 'test') {
     await interaction.reply('Help stepbro I\'m stuck');
   } else if (interaction.commandName === 'order') {
-    await order(interaction);
+    await selectItem(interaction);
   } else if (interaction.commandName === 'resetorder') {
     
   } else if (interaction.commandName === 'pay') {
@@ -79,7 +79,7 @@ client.on('interactionCreate', async interaction => {
  * Prompts a form with order stuff and adds to order
  * @param {*} interaction 
  */
-async function order(interaction) {
+async function selectItem(interaction) {
 
   //read json to get stock
   let stock = JSON.parse(fs.readFileSync('stock.json'));
@@ -107,6 +107,7 @@ async function order(interaction) {
     .setStyle(TextInputStyle.Short);
 
   const gunrow = new ActionRowBuilder().addComponents(select);
+  const quantrow = new ActionRowBuilder().addComponents(quantity);
 
   const response = await interaction.reply({
     content: "Make a selection",
@@ -118,14 +119,17 @@ async function order(interaction) {
   try {
     const confirmation = await response.awaitMessageComponent({ filter: collectorFilter, time: 60000 });
     if (confirmation.customId === 'gunselection') {
-      await interaction.editReply({ content: 'this does something', components: [] });
+      //show quantity
+      await interaction.update({ content: confirmation, components: [] });
     } 
   } catch (e) {
-    await interaction.editReply({ content: 'Confirmation not received within 1 minute, cancelling', components: [] });
+    await interaction.update({ content: 'Confirmation not received within 1 minute, cancelling', components: [] });
     return;
   }
+  
+}
 
-  //show quantity
+async function selectQuantity() {
   
 }
  
