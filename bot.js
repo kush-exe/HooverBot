@@ -77,9 +77,11 @@ client.on('interactionCreate', async interaction => {
   } else if (interaction.commandName === 'pay') {
     
   } else if (interaction.commandName === 'refresh') {
+    //await interaction.reply({ content: 'Refreshing Order!'});
+    //setTimeout(() => interaction.deleteReply(), 5000);
     refresh(interaction);
   } else if (interaction.commandName === 'removeorder') {
-    //remove(interaction);
+    remove(interaction);
   }
 });
 
@@ -215,9 +217,12 @@ async function addOrder(interaction, item, quantity) {
   setTimeout(() => interaction.deleteReply(), 120000);
 }
 
+/**
+ * refreshes the embed
+ * @param {*} interaction 
+ */
 async function refresh(interaction) {
-  await interaction.reply({ content: 'Refreshing Order!'});
-  setTimeout(() => interaction.deleteReply(), 5000);
+  
   let orders = JSON.parse(fs.readFileSync('orders.json'));
 
   const order = new EmbedBuilder()
@@ -234,7 +239,7 @@ async function refresh(interaction) {
 
     for (o in orders[member]) {
       if (o !== "paid" && o !== "nickname") {
-        x = x + orders[member][o] + "x " + o;
+        x = x + orders[member][o] + "x " + o + "\n";
       }
     }
 
