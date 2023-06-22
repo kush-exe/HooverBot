@@ -79,7 +79,7 @@ client.on('interactionCreate', async interaction => {
   } else if (interaction.commandName === 'refresh') {
     refresh(interaction);
   } else if (interaction.commandName === 'removeorder') {
-    remove(interaction);
+    //remove(interaction);
   }
 });
 
@@ -227,7 +227,7 @@ async function refresh(interaction) {
     .setAuthor({ name: "Big Hoover ", iconUrl: "https://i.imgur.com/cLzGRhf.png"})
     .setDescription("🔫😈💣")
     .setThumbnail('https://i.imgur.com/cLzGRhf.png')
-    .setTimeStamp();
+    .setTimestamp();
   
   for (member in orders) {
     let x = "";
