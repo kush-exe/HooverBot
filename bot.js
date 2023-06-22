@@ -80,6 +80,7 @@ client.on('interactionCreate', async interaction => {
  * @param {*} interaction 
  */
 async function selectItem(interaction) {
+  await interaction.deferReply();
 
   //read json to get stock
   let stock = JSON.parse(fs.readFileSync('stock.json'));
@@ -104,7 +105,7 @@ async function selectItem(interaction) {
 
   const gunrow = new ActionRowBuilder().addComponents(select);
 
-  const response = await interaction.reply({
+  const response = await interaction.followUp({
     content: "Make a selection",
     components: [gunrow],
   });
