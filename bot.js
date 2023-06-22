@@ -70,6 +70,7 @@ client.on('interactionCreate', async interaction => {
 
   if (interaction.commandName === 'test') {
     await interaction.reply('Help stepbro I\'m stuck');
+    setTimeout(() => interaction.deleteReply(), 30000);
   } else if (interaction.commandName === 'order') {
     selectItem(interaction);
   } else if (interaction.commandName === 'resetorder') {
@@ -137,6 +138,7 @@ async function selectItem(interaction) {
   } catch (e) {
     console.log(e);
     await interaction.editReply({ content: 'Confirmation not received within 1 minute, cancelling', components: [] });
+    setTimeout(() => interaction.deleteReply(), 30000);
     return;
   }
   
@@ -173,6 +175,7 @@ async function selectQuantity(interaction, item, stock) {
       const quantity = Number(interaction.fields.getTextInputValue('quantityinput'));
       if (quantity > stock) {
         interaction.reply({ content: 'Not enough in stock'});
+        setTimeout(() => interaction.deleteReply(), 30000);
       } else {
         addOrder(interaction, item, quantity)
       }
@@ -292,24 +295,37 @@ async function resetOrder(interaction) {
   interaction.awaitModalSubmit({ filter, time: 15_000 })
     .then(interaction => {
       interaction.reply({ content: '💣Order Cleared💣'});
+      setTimeout(() => interaction.deleteReply(), 30000);
       fs.writeFileSync('orders.json', JSON.stringify({}));
     })
     .catch(console.error);
   
 }
 
+/**
+ * Removes your own order
+ * @param {*} interaction 
+ */
 async function remove(interaction) {
   let orders = JSON.parse(fs.readFileSync('orders.json'));
   delete orders[interaction.user.id];
   fs.writeFileSync('orders.json', JSON.stringify(orders));
-  await interaction.reply({ content: "Your order has been removed, " + interaction.member.nickname});
+  await interaction.reply({ content: "Your order has been **removed**, " + interaction.member.nickname});
+  setTimeout(() => interaction.deleteReply(), 30000);
+  refresh(interaction);
 }
 
+/**
+ * marks order as paid
+ * @param {*} interaction 
+ */
 async function pay(interaction) {
   let orders = JSON.parse(fs.readFileSync('orders.json'));
   orders[interaction.user.id].paid = true;
   fs.writeFileSync('orders.json', JSON.stringify(orders));
-  await interaction.reply({ content: "Your order has been removed, " + interaction.member.nickname});
+  await interaction.reply({ content: "Your order has been marked as **PAID**, " + interaction.member.nickname});
+  setTimeout(() => interaction.deleteReply(), 30000);
+  refresh(interaction);
 }
  
 
