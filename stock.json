@@ -83,19 +83,19 @@
         "stock": 8,
         "available": 8
     },
-    "War Crate (Special)": {
+    "War Crate": {
         "price": 150000,
         "description": "** Special Item **",
         "stock": 1,
         "available": 1
     },
-    "War Crate 2 (Special)": {
+    "War Crate 2": {
         "price": 300000,
         "description": "** Special Item **",
         "stock": 1,
         "available": 1
     },
-    "War Crate 3 (Special)": {
+    "War Crate 3": {
         "price": 750000,
         "description": "** Special Item **",
         "stock": 1,
