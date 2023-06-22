@@ -101,17 +101,16 @@ async function order(interaction) {
     }
   }
 
-  const quant = new TextInputBuilder()
+  const quantity = new TextInputBuilder()
     .setCustomId('quantityInput')
     .setLabel("Quantity")
     .setStyle(TextInputStyle.Short);
 
-  const gunrow = new ActionRowBuilder().addComponents(select);
-  const quantity = new ActionRowBuilder().addComponents(quant);
+  const gunrow = new ActionRowBuilder().addComponents(select, quantity);
 
   await interaction.reply({
     content: "Make a selection",
-    components: [gunrow, quantity],
+    components: [gunrow],
   });
 
   const collectorFilter = i => i.user.id === interaction.user.id;
