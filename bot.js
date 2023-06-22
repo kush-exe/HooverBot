@@ -65,7 +65,7 @@ client.on('interactionCreate', async interaction => {
   if (interaction.commandName === 'test') {
     await interaction.reply('Help stepbro I\'m stuck');
   } else if (interaction.commandName === 'order') {
-    await selectItem(interaction);
+    selectItem(interaction);
   } else if (interaction.commandName === 'resetorder') {
     
   } else if (interaction.commandName === 'pay') {
@@ -95,19 +95,14 @@ async function selectItem(interaction) {
       select.addOptions(
         new StringSelectMenuOptionBuilder()
           .setLabel(gun)
-          .setDescription(stock[gun].description)
+          .setDescription(stock[gun].available + ' in stock')
           .setValue(gun)
       );
     }
   }
 
-  const quantity = new TextInputBuilder()
-    .setCustomId('quantity')
-    .setLabel("Quantity")
-    .setStyle(TextInputStyle.Short);
 
   const gunrow = new ActionRowBuilder().addComponents(select);
-  const quantrow = new ActionRowBuilder().addComponents(quantity);
 
   const response = await interaction.reply({
     content: "Make a selection",
@@ -121,17 +116,49 @@ async function selectItem(interaction) {
     console.log(confirmation);
     if (confirmation.customId === 'gunselection') {
       //show quantity
-      await interaction.editReply({ content: 'confirmation', components: [] });
+      selectQuantity(interaction, confirmation.values[0], stock[confirmation.values[0]].available);
     } 
   } catch (e) {
-    //await interaction.editReply({ content: 'Confirmation not received within 1 minute, cancelling', components: [] });
+    await interaction.editReply({ content: 'Confirmation not received within 1 minute, cancelling', components: [] });
     return;
   }
   
 }
 
-async function selectQuantity() {
+async function selectQuantity(interaction, item, stock) {
+  const quantity = new StringSelectMenuBuilder()
+    .setCustomId('quantityselection')
+    .setPlaceholder('Quantity');
   
+  for (let i = 1; i <= stock; i++) {
+    quantity.addOptions(
+      new StringSelectMenuOptionBuilder()
+        .setLabel(stock)
+        .setDescription('  ')
+        .setValue(stock)
+    );
+  }
+
+  const quantrow = new ActionRowBuilder().addComponents(quantity);
+
+  const response = await interaction.reply({
+    content: "Select Quantity",
+    components: [quantrow],
+  });
+
+  const collectorFilter = i => i.user.id === interaction.user.id;
+
+  try {
+    const confirmation = await response.awaitMessageComponent({ filter: collectorFilter, time: 60000 });
+    console.log(confirmation);
+    if (confirmation.customId === 'quantityselection') {
+      //add to order
+      await interaction.editReply({ content: confirmation.values[0] + 'x ' + item + ' added to your order!', components: [] });
+    } 
+  } catch (e) {
+    await interaction.editReply({ content: 'Confirmation not received within 1 minute, cancelling', components: [] });
+    return;
+  }
 }
  
 
