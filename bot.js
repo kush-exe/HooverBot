@@ -116,7 +116,7 @@ async function selectItem(interaction) {
     console.log(confirmation);
     if (confirmation.customId === 'gunselection') {
       //show quantity
-      selectQuantity(interaction, confirmation.values[0], stock[confirmation.values[0]].available);
+      await selectQuantity(interaction, confirmation.values[0], stock[confirmation.values[0]].available);
     } 
   } catch (e) {
     await interaction.editReply({ content: 'Confirmation not received within 1 minute, cancelling', components: [] });
@@ -125,40 +125,30 @@ async function selectItem(interaction) {
   
 }
 
+/**
+ * Prompts a modal form to fill out for order
+ * @param {*} interaction 
+ * @param {String} item 
+ * @param {Number} stock
+ * @returns 
+ */
 async function selectQuantity(interaction, item, stock) {
-  const quantity = new StringSelectMenuBuilder()
-    .setCustomId('quantityselection')
-    .setPlaceholder('Quantity');
-  
-  for (let i = 1; i <= stock; i++) {
-    quantity.addOptions(
-      new StringSelectMenuOptionBuilder()
-        .setLabel(stock.toString())
-        .setDescription('  ')
-        .setValue(stock.toString())
-    );
-  }
+  const modal = new ModalBuilder()
+    .setCustomId('ordermodal')
+    .setTitle('Gun Order');
+
+  //add to modal
+
+  const quantity = new TextInputBuilder()
+    .setCustomId('quantityinput')
+    .setLabel('Enter Quantity of ' + item)
+    .setStyle(TextInputStyle.Short);
 
   const quantrow = new ActionRowBuilder().addComponents(quantity);
 
-  const response = await interaction.editReply({
-    content: "Select Quantity",
-    components: [quantrow],
-  });
+  modal.addComponents(quantrow);
 
-  const collectorFilter = i => i.user.id === interaction.user.id;
-
-  try {
-    const confirmation = await response.awaitMessageComponent({ filter: collectorFilter, time: 60000 });
-    console.log(confirmation);
-    if (confirmation.customId === 'quantityselection') {
-      //add to order
-      await interaction.editReply({ content: confirmation.values[0] + 'x ' + item + ' added to your order!', components: [] });
-    } 
-  } catch (e) {
-    await interaction.editReply({ content: 'Confirmation not received within 1 minute, cancelling', components: [] });
-    return;
-  }
+  await interaction.showModal(modal);
 }
  
 
