@@ -255,18 +255,18 @@ async function refresh(interaction) {
   }
 
   order.setDescription('🔫**Grand Total: $' + grandtotal + '**');
-  console.log(interaction);
+
   //save id
-  if (data.embed === undefined) {
-    const res = await interaction.channel.send({ embeds: [order] });
-    data.embed = res.id;
-    fs.writeFileSync('data.json', JSON.stringify(data));
-  } else { //otherwise edit embed
-    interaction.channel.messages.fetch(data.embed)
-    .then(msg => {
-        msg.edit(order);
-    });
+  if (data.embed) {
+    client.channels.fetch(data.channel).then(channel => {
+      channel.messages.delete(data.embed);
+    }); 
   }
+
+  const res = await interaction.channel.send({ embeds: [order] });
+  data.embed = res.id;
+  data.channel = interaction.channelId
+  fs.writeFileSync('data.json', JSON.stringify(data));
 
 }
  
