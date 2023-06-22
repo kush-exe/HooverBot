@@ -288,6 +288,15 @@ async function resetOrder(interaction) {
     .setCustomId('resetmodal')
     .setTitle('💣Reset Order💣, are you sure you want to do this?');
 
+    const conf = new TextInputBuilder()
+    .setCustomId('confirmreset')
+    .setLabel('Enter YES to continue')
+    .setStyle(TextInputStyle.Short);
+
+  const confrow = new ActionRowBuilder().addComponents(conf);
+
+  modal.addComponents(confrow);
+
   await interaction.showModal(modal);
   
   // Collect a modal submit interaction
