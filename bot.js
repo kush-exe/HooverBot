@@ -73,7 +73,7 @@ client.on('interactionCreate', async interaction => {
   } else if (interaction.commandName === 'order') {
     selectItem(interaction);
   } else if (interaction.commandName === 'resetorder') {
-    
+    resetOrder(interaction);
   } else if (interaction.commandName === 'pay') {
     
   } else if (interaction.commandName === 'refresh') {
@@ -81,7 +81,6 @@ client.on('interactionCreate', async interaction => {
     setTimeout(() => interaction.deleteReply(), 5000);
     refresh(interaction);
   } else if (interaction.commandName === 'removeorder') {
-    remove(interaction);
   }
 });
 
@@ -214,6 +213,7 @@ async function addOrder(interaction, item, quantity) {
   fs.writeFileSync('stock.json', JSON.stringify(stock));
 
   await interaction.reply({ content: 'Added ' + quantity.toString() + 'x ' + item + ' to your order ' + interaction.member.nickname});
+  setTimeout(() => refresh(interaction), 2000);
   setTimeout(() => interaction.deleteReply(), 120000);
 }
 
@@ -242,14 +242,14 @@ async function refresh(interaction) {
 
     for (o in orders[member]) {
       if (o !== "paid" && o !== "nickname") {
-        let sub = stock[o].price;
-        x = x + orders[member][o] + "x " + o + " $" + (sub*orders[member][o]) + "\n";
+        let sub = sub*orders[member][o];
+        x = x + orders[member][o] + "x " + o + " $" + (sub) + "\n";
         total += sub;
       }
     }
 
 
-    x = x + "**TOTAL: " + total + "**";
+    x = x + "**TOTAL: $" + total + "**";
     order.addFields({ name: orders[member].nickname, value: x, inline: true });
     grandtotal += total;
   }
@@ -268,6 +268,28 @@ async function refresh(interaction) {
   data.channel = interaction.channelId
   fs.writeFileSync('data.json', JSON.stringify(data));
 
+}
+
+/**
+ * Resets the whole order
+ * @param {*} interaction 
+ */
+async function resetOrder(interaction) {
+  const modal = new ModalBuilder()
+    .setCustomId('resetmodal')
+    .setTitle('💣Reset Order💣, are you sure you want to do this?');
+
+  await interaction.showModal(modal);
+  
+  // Collect a modal submit interaction
+  const filter = (interaction) => interaction.customId === 'resetmodal';
+  interaction.awaitModalSubmit({ filter, time: 15_000 })
+    .then(interaction => {
+      await interaction.reply({ content: '💣Order Cleared💣'});
+      fs.writeFileSync('orders.json', JSON.stringify({}));
+    })
+    .catch(console.error);
+  
 }
  
 
