@@ -160,7 +160,7 @@ async function selectQuantity(interaction, item, stock) {
   //modal.addComponents(quantrow);
 
   //await interaction.showModal(modal);
-  await interaction.followUp(quantrow);
+  await interaction.reply(quantrow);
 }
  
 
