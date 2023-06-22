@@ -104,7 +104,7 @@ async function order(interaction) {
   const quant = new TextInputBuilder()
     .setCustomId('quantityInput')
     .setLabel("Quantity")
-    .setStyle(TextInputStyle.short);
+    .setStyle(TextInputStyle.Short);
 
   const gunrow = new ActionRowBuilder().addComponents(select);
   const quantity = new ActionRowBuilder().addComponents(quant);
