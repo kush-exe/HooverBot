@@ -78,6 +78,8 @@ client.on('interactionCreate', async interaction => {
     
   } else if (interaction.commandName === 'refresh') {
     refresh(interaction);
+  } else if (interaction.commandName === 'removeorder') {
+    remove(interaction);
   }
 });
 
@@ -214,7 +216,6 @@ async function addOrder(interaction, item, quantity) {
 }
 
 async function refresh(interaction) {
-  interaction.deferReply();
   await interaction.reply({ content: 'Refreshing Order!'});
   setTimeout(() => interaction.deleteReply(), 5000);
   let orders = JSON.parse(fs.readFileSync('orders.json'));
