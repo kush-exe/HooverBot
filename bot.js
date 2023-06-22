@@ -315,6 +315,8 @@ async function remove(interaction) {
   let stock = JSON.parse(fs.readFileSync('stock.json'));
 
   for (gun in orders[interaction.user.id]) {
+    console.log(gun);
+    console.log(stock);
     stock[gun].available += orders[interaction.user.id][gun];
   }
 
