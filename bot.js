@@ -147,7 +147,7 @@ async function selectQuantity(interaction, item, stock) {
 
   modal.addComponents(quantrow);
 
-  await interaction.showModal(modal);
+  const response = await interaction.showModal(modal);
 
   const collectorFilter = i => i.user.id === interaction.user.id;
 
