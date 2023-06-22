@@ -286,7 +286,7 @@ async function refresh(interaction) {
 async function resetOrder(interaction) {
   const modal = new ModalBuilder()
     .setCustomId('resetmodal')
-    .setTitle('💣Reset Order💣, are you sure you want to do this?');
+    .setTitle('💣Reset Order💣, are you sure?');
 
     const conf = new TextInputBuilder()
     .setCustomId('confirmreset')
