@@ -73,6 +73,14 @@ client.on('interactionCreate', async interaction => {
   }
 });
 
+//modal handler
+client.on(Events.InteractionCreate, async interaction => {
+	if (!interaction.isModalSubmit()) return;
+	if (interaction.customId === 'ordermodal') {
+		await interaction.reply({ content: 'Your submission was received successfully!' });
+	}
+});
+
 //functions
 
 /**
@@ -136,7 +144,7 @@ async function selectQuantity(interaction, item, stock) {
 
   const modal = new ModalBuilder()
     .setCustomId('ordermodal')
-    .setTitle('Gun Order');
+    .setTitle('Gun Order: ' + item);
 
   const quantity = new TextInputBuilder()
     .setCustomId('quantityinput')
@@ -147,21 +155,16 @@ async function selectQuantity(interaction, item, stock) {
 
   modal.addComponents(quantrow);
 
-  const response = await interaction.showModal(modal);
+  await interaction.showModal(modal);
+  
+}
 
-  const collectorFilter = i => i.user.id === interaction.user.id;
+/**
+ * Adds item to order after modal submit
+ * @param {*} interaction 
+ */
+function addOrder(interaction) {
 
-  try {
-    const confirmation = await response.awaitMessageComponent({ filter: collectorFilter, time: 60000 });
-    if (confirmation.customId === 'ordermodal' && confirmation.isModalSubmit()) {
-      //update order form
-      await interaction.editReply({ content: 'submission received!', components: [] });
-    } 
-  } catch (e) {
-    console.log(e);
-    await interaction.editReply({ content: 'Confirmation not received within 1 minute, cancelling', components: [] });
-    return;
-  }
 }
  
 
