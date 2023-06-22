@@ -224,6 +224,8 @@ async function addOrder(interaction, item, quantity) {
 async function refresh(interaction) {
   
   let orders = JSON.parse(fs.readFileSync('orders.json'));
+  let stock = JSON.parse(fs.readFileSync('stock.json'));
+  let data = JSON.parse(fs.readFileSync('data.json'));
 
   const order = new EmbedBuilder()
     .setColor(0xEB6E1F)
@@ -236,19 +238,33 @@ async function refresh(interaction) {
   
   for (member in orders) {
     let x = "";
+    let total = 0;
 
     for (o in orders[member]) {
       if (o !== "paid" && o !== "nickname") {
-        x = x + orders[member][o] + "x " + o + "\n";
+        let sub = stock[o].price;
+        x = x + orders[member][o] + "x " + o + "$" + (sub*orders[member][o]) + "\n";
+        total += sub;
       }
     }
 
-    if (o.length > 0)
-      order.addFields({ name: orders[member].nickname, value: x, inline: true });
+
+    x = x + "Total: " + total;
+    order.addFields({ name: orders[member].nickname, value: x, inline: true });
+    
   }
 
-
-  await interaction.channel.send({ embeds: [order] });
+  //save id
+  if (data.embed === undefined) {
+    const res = await interaction.channel.send({ embeds: [order] });
+    data.embed = res.id;
+    fs.writeFileSync('data.json', JSON.stringify(data));
+  } else { //otherwise edit embed
+    interaction.channel.messages.fetch(data.embed)
+    .then(msg => {
+        msg.edit(order);
+    });
+  }
 
 }
  
