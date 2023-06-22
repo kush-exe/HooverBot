@@ -112,6 +112,8 @@ async function selectItem(interaction) {
     components: [gunrow],
   });
 
+  setTimeout(() => interaction.deleteReply(), 10000);
+
   const collectorFilter = i => i.user.id === interaction.user.id;
 
   try {
