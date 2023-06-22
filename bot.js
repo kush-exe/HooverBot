@@ -76,7 +76,7 @@ client.on('interactionCreate', async interaction => {
 //functions
 
 /**
- * Prompts a modal form with order stuff and adds to order
+ * Prompts a form with order stuff and adds to order
  * @param {*} interaction 
  */
 async function order(interaction) {
@@ -84,12 +84,12 @@ async function order(interaction) {
   //read json to get stock
   let stock = JSON.parse(fs.readFileSync('stock.json'));
 
-  //add components
+  //show options
   const select = new StringSelectMenuBuilder()
-    .setCustomId('selection')
+    .setCustomId('gunselection')
     .setPlaceholder('Please select your item');
   
-  //select.addOptions()
+  //stock checks
   for (var gun in stock) {
     if (stock[gun].available > 0) {
       select.addOptions(
@@ -102,7 +102,7 @@ async function order(interaction) {
   }
 
   const quantity = new TextInputBuilder()
-    .setCustomId('quantityInput')
+    .setCustomId('quantity')
     .setLabel("Quantity")
     .setStyle(TextInputStyle.Short);
 
@@ -117,9 +117,15 @@ async function order(interaction) {
 
   try {
     const confirmation = await response.awaitMessageComponent({ filter: collectorFilter, time: 60000 });
+    if (confirmation.customId === 'gunselection') {
+      await interaction.editReply({ content: 'this does something', components: [] });
+    } 
   } catch (e) {
     await interaction.editReply({ content: 'Confirmation not received within 1 minute, cancelling', components: [] });
+    return;
   }
+
+  //show quantity
   
 }
  
