@@ -84,13 +84,6 @@ async function order(interaction) {
   //read json to get stock
   let stock = JSON.parse(fs.readFileSync('stock.json'));
 
-  /*for (gun in stockdata) {
-    if (stockdata[gun].available > 0) {
-      stock[gun] = stockdata[gun].available
-    }
-  }*/
-
-
   //add components
   const select = new StringSelectMenuBuilder()
     .setCustomId('selection')
@@ -102,7 +95,7 @@ async function order(interaction) {
       select.addOptions(
         new StringSelectMenuOptionBuilder()
           .setLabel(gun)
-          .setDescription(gun)
+          .setDescription(stock[gun].description)
           .setValue(gun)
       );
     }
