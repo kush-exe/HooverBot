@@ -243,7 +243,7 @@ async function refresh(interaction) {
 
     for (o in orders[member]) {
       if (o !== "paid" && o !== "nickname") {
-        let sub = sub*orders[member][o];
+        let sub = stock[o].price*orders[member][o];
         x = x + orders[member][o] + "x " + o + " $" + (sub) + "\n";
         total += sub;
       }
