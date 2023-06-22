@@ -156,7 +156,7 @@ async function selectQuantity(interaction, item, stock) {
     .then(interaction => {
       const quantity = Number(interaction.fields.getTextInputValue('quantityinput'));
       if (quantity > stock) {
-        await interaction.reply({ content: 'Not enough in stock'});
+        interaction.reply({ content: 'Not enough in stock'});
       } else {
         addOrder(interaction, item, quantity)
       }
